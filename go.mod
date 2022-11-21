@@ -23,7 +23,7 @@ require (
 	github.com/sagernet/sing-dns v0.0.0-20220822023312-3e086b06d666
 	github.com/sagernet/sing-shadowsocks v0.0.0-20220819002358-7461bb09a8f6
 	github.com/sagernet/sing-tun v0.0.0-20220828031750-185b6c880a83
-	github.com/sagernet/sing-vmess v0.0.0-20220913015714-c4ab86d40e12
+	github.com/sagernet/sing-vmess v0.0.0-20221121061945-608aaec6402b
 	github.com/sagernet/smux v0.0.0-20220831015742-e0f1988e3195
 	github.com/sagernet/websocket v0.0.0-20220913015213-615516348b4e
 	github.com/spf13/cobra v1.5.0
@@ -31,8 +31,8 @@ require (
 	go.uber.org/atomic v1.10.0
 	go4.org/netipx v0.0.0-20220812043211-3cc044ffd68d
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
-	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b
-	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261
+	golang.org/x/net v0.2.0
+	golang.org/x/sys v0.2.0
 	golang.zx2c4.com/wireguard v0.0.0-20220829161405-d1d08426b27b
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.28.1
@@ -66,9 +66,9 @@ require (
 	go.uber.org/zap v1.22.0 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
-	golang.org/x/tools v0.1.11-0.20220513221640-090b14e8501f // indirect
+	golang.org/x/tools v0.1.12 // indirect
 	golang.zx2c4.com/wintun v0.0.0-20211104114900-415007cec224 // indirect
 	google.golang.org/genproto v0.0.0-20210722135532-667f2b7c528f // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect

@@ -3,6 +3,7 @@ package outbound
 import (
 	"context"
 	"net"
+	"os"
 	"runtime"
 	"time"
 
@@ -79,7 +80,9 @@ func NewEarlyConnection(ctx context.Context, this N.Dialer, conn net.Conn, metad
 func NewPacketConnection(ctx context.Context, this N.Dialer, conn N.PacketConn, metadata adapter.InboundContext) error {
 	switch metadata.Protocol {
 	case C.ProtocolQUIC, C.ProtocolDNS:
-		return connectPacketConnection(ctx, this, conn, metadata)
+		if !metadata.Destination.Addr.IsUnspecified() {
+			return connectPacketConnection(ctx, this, conn, metadata)
+		}
 	}
 	ctx = adapter.WithContext(ctx, &metadata)
 	var outConn net.PacketConn
@@ -134,22 +137,25 @@ func CopyEarlyConn(ctx context.Context, conn net.Conn, serverConn net.Conn) erro
 	_payload := buf.StackNew()
 	payload := common.Dup(_payload)
 	err := conn.SetReadDeadline(time.Now().Add(C.ReadPayloadTimeout))
-	if err != nil {
-		return err
-	}
-	_, err = payload.ReadOnceFrom(conn)
-	if err != nil && !E.IsTimeout(err) {
-		return E.Cause(err, "read payload")
-	}
-	err = conn.SetReadDeadline(time.Time{})
-	if err != nil {
-		payload.Release()
-		return err
+	if err != os.ErrInvalid {
+		if err != nil {
+			return err
+		}
+		_, err = payload.ReadOnceFrom(conn)
+		if err != nil && !E.IsTimeout(err) {
+			return E.Cause(err, "read payload")
+		}
+		err = conn.SetReadDeadline(time.Time{})
+		if err != nil {
+			payload.Release()
+			return err
+		}
 	}
 	_, err = serverConn.Write(payload.Bytes())
 	if err != nil {
 		return N.HandshakeFailure(conn, err)
 	}
 	runtime.KeepAlive(_payload)
+	payload.Release()
 	return bufio.CopyConn(ctx, conn, serverConn)
 }
